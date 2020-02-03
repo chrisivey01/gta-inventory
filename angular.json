@@ -11,9 +11,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": "dist/gta-cad-ui",
+            "customWebpackConfig": {
+              "path": "./webpack.config.js",
+              "mergeStrategies": {
+                "externals": "replace"
+              }
+            },
+            "outputPath": "src/dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -30,6 +36,9 @@
           },
           "configurations": {
             "production": {
+              "customWebpackConfig": {
+                "path": "./webpack.config.js"
+              },
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
