@@ -1,0 +1,14 @@
+mat-grid-tile{
+
+    background-color: rgba(44,47,51,0.8);
+}
+
+mat-grid-list{
+    width:25%;
+    height:25%;
+}
+
+img {
+    height:80%;
+    /* width:100%; */
+}

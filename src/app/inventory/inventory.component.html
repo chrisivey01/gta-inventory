@@ -1,6 +1,12 @@
-<mat-grid-list cols = 5 rows = 5>
-    <mat-grid-tile>1</mat-grid-tile>
-    <mat-grid-tile>2</mat-grid-tile>
-    <mat-grid-tile>3</mat-grid-tile>
-    <mat-grid-tile>4</mat-grid-tile>
+<mat-grid-list cols = 5  >
+    <mat-grid-tile *ngFor="let item of usersInventory">
+        <ng-template *ngIf="item;then showItem; else showBlank">  
+        </ng-template>
+        <ng-template #showItem>
+            <img src ="../../assets/items/{{item.name}}.png"/>
+        </ng-template>
+        <ng-template #showBlank>
+            <img/>
+        </ng-template>
+    </mat-grid-tile>
 </mat-grid-list>
