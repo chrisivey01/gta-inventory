@@ -1,4 +1,4 @@
-<mat-grid-list cols = 5  >
+<!-- <mat-grid-list cols = 5  >
     <mat-grid-tile *ngFor="let item of usersInventory">
         <ng-template *ngIf="item;then showItem; else showBlank">  
         </ng-template>
@@ -9,4 +9,33 @@
             <img/>
         </ng-template>
     </mat-grid-tile>
-</mat-grid-list>
+</mat-grid-list> -->
+
+<div #rowLayout cdkDropListGroup>
+    <!-- Based on the width of template reference #rowLayout' and item box width,
+         columns per row can be calculated and a items table matrix is initialized-->
+    <div
+      fxLayout="row"
+      *ngFor="let itemsRow of getItemsTable(rowLayout)"
+      cdkDropList
+      cdkDropListOrientation="horizontal"
+      [cdkDropListData]="itemsRow"
+      (cdkDropListDropped)="reorderDroppedItem($event)"
+    >
+      <!-- Component.reorderDroppedItem():
+           reorders table/view model, update input model, and resize table matrix-->
+      <div *ngFor="let item of itemsRow" cdkDrag>
+        <div class="drag-placeholder" *cdkDragPlaceholder></div>
+        <div fxLayoutAlign="center center" class="item-box">
+            <ng-template *ngIf="item; then showItem; else showBlank">  
+            </ng-template>
+            <ng-template #showItem>
+                <img src ="../../assets/items/{{item.name}}.png"/>
+            </ng-template>
+            <ng-template #showBlank>
+                <img/>
+            </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>

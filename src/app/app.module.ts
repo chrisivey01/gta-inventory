@@ -4,6 +4,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { GridsterModule } from 'angular-gridster2';
+import { ItemsService } from './services/items.service';
+import { HttpClientModule } from '@angular/common/http';
+import { DragDropModule } from "@angular/cdk/drag-drop";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -13,9 +18,13 @@ import { InventoryComponent } from './inventory/inventory.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatGridListModule
+    HttpClientModule,
+    MatGridListModule, 
+    GridsterModule,
+    DragDropModule,
+    FlexLayoutModule
   ],
-  providers: [],
+  providers: [ItemsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
