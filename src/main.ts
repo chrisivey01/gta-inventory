@@ -1,5 +1,8 @@
-import 'core-js/features/reflect';
+import './polyfills.ts';
+import './vendor.ts';
+import 'core-js';
 import 'zone.js';
+import "rxjs";
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

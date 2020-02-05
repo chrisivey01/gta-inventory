@@ -15,15 +15,18 @@ import {
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.css'],
+  providers: [ItemsService]
 })
 
 export class InventoryComponent implements OnInit {
 
+
+
   usersInventory: any[] = new Array(25);
   otherInventory: any[] = new Array(25);
-  // item: {};
   fileName: string;
   receivedUsersItems$: Observable<Items>;
+  receivedUsersItems: any[];
 
 
   // one dimensional input model
@@ -40,20 +43,14 @@ export class InventoryComponent implements OnInit {
   constructor(private itemsService: ItemsService) { }
 
   ngOnInit() {
-    let gatherItems = [];
-    this.receivedUsersItems$ = this.itemsService.getItems();
-    this.receivedUsersItems$.subscribe(info => {
-      gatherItems.push(info)
-      console.log(info)
-    })
-    this.usersInventory = [...gatherItems, ...this.usersInventory].splice(0, 25)
+
   }
 
 
   getItemsTable(rowLayout: Element): number[][] {
     // calculate column size per row
     const { width } = rowLayout.getBoundingClientRect();
-    const columnSize = Math.round(width / this.boxWidth);
+    const columnSize = 5;
     // view has been resized? => update table with new column size
     if (columnSize != this.columnSize) {
       this.columnSize = columnSize;
@@ -63,19 +60,43 @@ export class InventoryComponent implements OnInit {
   }
 
   initTable() {
-    // create table rows based on input list
-    // example: [1,2,3,4,5,6] => [ [1,2,3], [4,5,6] ]
+
+    let gatherItems = [];
+    this.receivedUsersItems = this.itemsService.getItems();
+    // this.receivedUsersItems$.subscribe(info => {
+      for (let item of this.receivedUsersItems) {
+        gatherItems.push(item)
+      }
+      this.usersInventory = [...gatherItems, ...this.usersInventory].splice(0, 25)
+
+      // create table rows based on input list
+      // example: [1,2,3,4,5,6] => [ [1,2,3], [4,5,6] ]
+      this.itemsTable = this.usersInventory
+        .filter((_, outerIndex) => outerIndex % this.columnSize == 0) // create outter list of rows
+        .map((
+          _,
+          rowIndex // fill each row from...
+        ) =>
+          this.usersInventory.slice(
+            rowIndex * this.columnSize, // ... row start and
+            rowIndex * this.columnSize + this.columnSize // ...row end
+          )
+        );
+    // })
+  }
+
+  updateTable() {
     this.itemsTable = this.usersInventory
-      .filter((_, outerIndex) => outerIndex % this.columnSize == 0) // create outter list of rows
-      .map((
-        _,
-        rowIndex // fill each row from...
-      ) =>
-        this.usersInventory.slice(
-          rowIndex * this.columnSize, // ... row start and
-          rowIndex * this.columnSize + this.columnSize // ...row end
-        )
-      );
+    .filter((_, outerIndex) => outerIndex % this.columnSize == 0) // create outter list of rows
+    .map((
+      _,
+      rowIndex // fill each row from...
+    ) =>
+      this.usersInventory.slice(
+        rowIndex * this.columnSize, // ... row start and
+        rowIndex * this.columnSize + this.columnSize // ...row end
+      )
+    );
   }
 
   reorderDroppedItem(event: CdkDragDrop<number[]>) {
@@ -105,7 +126,7 @@ export class InventoryComponent implements OnInit {
 
     // re-initialize table - makes sure each row has same numbers of entries
     // example: [ [1,2], [3,4,5,6] ] => [ [1,2,3], [4,5,6] ]
-    this.initTable();
+    this.updateTable();
   }
 }
 

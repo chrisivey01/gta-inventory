@@ -1,3 +1,14 @@
 export interface Items {
-    items:[]
+    "receivedItems": [
+        {
+            "name": "beer",
+            "count": 5,
+            "total": 5
+        },
+        {
+            "name": "powerade",
+            "count": 5,
+            "total": 5
+        }
+    ]
 }

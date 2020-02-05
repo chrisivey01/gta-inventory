@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { GridsterModule } from 'angular-gridster2';
-import { ItemsService } from './services/items.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -24,7 +23,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     DragDropModule,
     FlexLayoutModule
   ],
-  providers: [ItemsService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
